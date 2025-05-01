@@ -1,0 +1,78 @@
+import java.util.*;
+
+class Process {
+    int id;
+    boolean active;
+
+    Process(int id) {
+        this.id = id;
+        this.active = true;
+    }
+}
+
+public class Ring {
+    static Process[] proc;
+    static int n;
+
+    static void startElection(int init) {
+        int coordinator = -1;
+
+        System.out.println("Election started by Process: " + proc[init].id);
+        int i = init;
+
+        do {
+            int next = (i + 1) % n;
+
+            if (proc[next].active) {
+                System.out.println("Process " + proc[i].id + " sends message to Process " + proc[next].id);
+                coordinator = Math.max(coordinator, proc[next].id);
+            }
+
+            i = next;
+
+        } while (i != init);
+
+        System.out.println("Process " + coordinator + " is elected as Coordinator.");
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter the number of processes: ");
+        n = sc.nextInt();  // Use global variable, not 'int n'
+
+        proc = new Process[n];
+
+        System.out.println("Enter the process IDs:");
+        for (int i = 0; i < n; i++) {
+            proc[i] = new Process(sc.nextInt());
+        }
+
+        int ch;
+        do {
+            System.out.println("\nMenu:");
+            System.out.println("1. Start an election");
+            System.out.println("2. Exit");
+            System.out.print("Enter your choice: ");
+            ch = sc.nextInt();
+
+            switch (ch) {
+                case 1:
+                    System.out.print("Enter the process index (0 to " + (n - 1) + ") to start an election: ");
+                    int init = sc.nextInt();
+                    startElection(init);
+                    break;
+
+                case 2:
+                    System.out.println("Program Exiting...");
+                    break;
+
+                default:
+                    System.out.println("Invalid choice, try again.");
+            }
+
+        } while (ch != 2);
+
+        sc.close();
+    }
+}

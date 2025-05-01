@@ -1,0 +1,59 @@
+
+//Server
+import java.io.*;
+import java.net.*;
+
+public class BerkeleyServer{
+    public static void main(String[] args) throws IOException{
+
+        ServerSocket server=new ServerSocket(5000);
+        System.out.println("Server is waiting for connected to client");
+        Socket client=server.accept();
+        System.out.println("Client connected");
+
+        BufferedReader in=new BufferedReader(new InputStreamReader(client.getInputStream()));
+        PrintWriter out=new PrintWriter(client.getOutputStream(),true);
+
+        long serverTime=System.currentTimeMillis();
+        System.out.println(serverTime);
+
+        long clientTime=Long.parseLong(in.readLine());
+         System.out.println(clientTime);
+
+        long AvgTime=(serverTime+clientTime)/2;
+         System.out.println(AvgTime);
+
+        long Adjustment=AvgTime-clientTime;
+         System.out.println(Adjustment);
+         out.println(Adjustment);
+
+         client.close();
+         server.close();
+
+    }
+}
+
+//client:-
+
+import java.io.*;
+import java.net.*;
+
+public class BerkeleyClient{
+    public static void main(String[] args) throws IOException{
+
+        Socket socket=new Socket("localhost",5000);
+
+        BufferedReader in=new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        PrintWriter out=new PrintWriter(socket.getOutputStream(),true);
+
+        long LocalTime=System.currentTimeMillis();
+        System.out.println(LocalTime);
+        out.println(LocalTime);
+
+        long Adjustment=Long.parseLong(in.readLine());
+         System.out.println(Adjustment);
+
+        long newTime=(Adjustment+LocalTime);
+         System.out.println(newTime);
+    }
+}

@@ -1,0 +1,76 @@
+
+
+import java.util.*;
+
+public class TokenRing{
+
+    public static void main(String[] args){
+        Scanner sc=new Scanner(System.in);
+
+        System.out.println("Enter the number of node:");
+        int n=sc.nextInt();
+
+        System.out.println("Ring formed as below");
+        for(int i=0;i<n;i++){
+            System.out.println(""+i);
+        }
+        System.out.println(0);
+
+        int choice=0;
+        int token=0;
+
+    
+int ch;
+        do{
+            System.out.println("Enter the sender:");
+            int sender=sc.nextInt();
+
+            System.out.println("Enter the receiver:");
+            int receiver=sc.nextInt();
+
+            System.out.println("Enter the data:");
+            int data=sc.nextInt();
+
+            System.out.println("Token Passing:");
+            for(int i=token;i<sender;i++){
+                System.out.println(""+i+"->");
+            }
+
+            if(receiver==sender+1){
+                System.out.println("Sender:"+sender+"Sending data:"+data);
+                System.out.println("Receiver:"+receiver+"Receiving data"+data);
+        
+            }else{
+                System.out.println(""+sender);
+                System.out.println("Sender "+sender+"sending data"+data);
+
+                
+
+                int i=sender;
+                boolean reached=false;
+                while(true){
+                    i=(i+1)%n;
+                    if(i==receiver){
+                        reached=true;
+                        break;
+                    }
+                    if(i==sender){
+                        break;
+                    }
+                     System.out.println("data " + data + " forwarded by " + i);
+                }
+                if(reached){
+                    System.out.println("Receiver:"+receiver+"Receiving data"+data);
+                }else{
+                    System.out.println("Error");
+                }
+                
+            }
+            token=sender;
+            System.out.println("Do you want to check again? If YES Enter 1,If NO Enter 0:");
+             ch=sc.nextInt();
+
+
+        }while(ch==1);
+    }
+}

@@ -1,0 +1,126 @@
+
+import java.util.*;
+
+public class bully{
+    static boolean[] state=new boolean[6];
+    static int coordinator;
+    
+    
+    public static void up(int up){
+        
+        if(state[up-1]){
+            System.out.println("Process"+up+"is already up");
+        }else{
+            System.out.println("Process"+up+"is held an election");
+            
+            for(int i=up;i<5;i++){
+                System.out.println("Proces start an election "+up+"send a process"+(i+1));
+            }
+            for(int i=4;i>=0;i--){
+                if(!state[up-1]) continue;
+                System.out.println("Process start an election:"+(i+1)+"send a process"+up);
+                coordinator=i+1;
+                break;
+            }
+        }
+        
+    }
+    public static void down(int down){
+        
+        if(!state[down-1]){
+            System.out.println("Process"+down+"is already down");
+        }else{
+            state[down-1]=false;
+            System.out.println("Process"+down+"held an election");
+        }
+        
+    }
+    
+    public static void mess(int mess){
+        
+        if(!state[mess-1]){
+            System.out.println("process is down");
+        }else{
+            System.out.println("Process"+mess+"held an election");
+            
+            for(int i=mess;i<5;i++){
+                System.out.println("Process"+mess+"send mess to"+(i+1));
+            }
+            System.out.println("election msg send from"+coordinator+"to all");
+        }
+        
+    }    
+public static void main(String[] args){
+    Scanner sc=new Scanner(System.in);
+    coordinator=5;
+    System.out.println("5 active process p1 p2 p3 p4 p5");
+    System.out.println("Process 5 is a coordinator");
+    for(int i=0;i<5;i++){
+        state[i]=true;
+    }
+    
+    while(true){
+        System.out.println("\n1.Bring up process\n2.Bring down process\n3.send an election msg\n4.Exist");
+        System.out.println("Enter your choice:");
+        int ch=sc.nextInt();
+        
+        switch(ch){
+            
+            case 1:
+                System.out.println("Bring up process");
+                int up=sc.nextInt();
+                up(up);
+                break;
+                
+            case 2:
+                System.out.println("Bring down process");
+                int down=sc.nextInt();
+                down(down);
+                break;
+                
+            case 3:
+                System.out.println("sent an election");
+                int mess=sc.nextInt();
+                mess(mess);
+                break;
+                
+            case 4:
+                System.out.println("program existing");
+                return;
+                
+            default:
+            System.out.println("Invalid choice,try again");
+                
+        }
+        
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        
+    }
+}
